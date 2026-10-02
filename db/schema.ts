@@ -51,3 +51,10 @@ export const taskVerifications = pgTable('task_verifications', {
   evidence: jsonb('evidence').$type<Record<string, unknown>>().default({}),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 });
+
+export const worldSnapshots = pgTable('world_snapshots', {
+  worldId: text('world_id').primaryKey(),
+  seed: integer('seed').notNull().default(2048),
+  state: jsonb('state').$type<Record<string, unknown>>().notNull().default({}),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+});

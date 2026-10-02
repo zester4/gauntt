@@ -51,4 +51,11 @@ CREATE TABLE IF NOT EXISTS "task_verifications" (
 );
 CREATE INDEX IF NOT EXISTS "benchmark_runs_user_idx" ON "benchmark_runs" ("user_id");
 CREATE INDEX IF NOT EXISTS "benchmark_runs_task_idx" ON "benchmark_runs" ("task_id");
+
+CREATE TABLE IF NOT EXISTS "world_snapshots" (
+  "world_id" text PRIMARY KEY,
+  "seed" integer NOT NULL DEFAULT 2048,
+  "state" jsonb NOT NULL DEFAULT '{}',
+  "updated_at" timestamptz NOT NULL DEFAULT now()
+);
 CREATE INDEX IF NOT EXISTS "benchmark_runs_started_idx" ON "benchmark_runs" ("started_at");
