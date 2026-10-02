@@ -4,6 +4,7 @@ node_modules/
 .next/
 out/
 coverage/
+test-results/
 
 # Local secrets and environment overrides
 .env
