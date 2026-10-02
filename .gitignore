@@ -1,0 +1,15 @@
+.clerk/
+.agents/
+node_modules/
+.next/
+out/
+coverage/
+
+# Local secrets and environment overrides
+.env
+.env.local
+.env.*.local
+
+# Tooling and OS files
+.DS_Store
+*.log
