@@ -6,6 +6,7 @@ export const taskRegistry: TaskDefinition[] = [
   { id:'FORM-07', world:'helix', title:'Submit an expense report', category:'Data entry', difficulty:4, optimalSteps:12, timeLimitSeconds:360, required:['rows','receipt'] },
   { id:'FORM-10', world:'wanderly', title:'Search for a flight', category:'Navigation', difficulty:3, optimalSteps:8, timeLimitSeconds:240, required:['from','to','depart','cabin','passengers'] },
   { id:'FORM-14', world:'northwind', title:'Harden account security', category:'Auth', difficulty:4, optimalSteps:5, timeLimitSeconds:180, required:['toggle','otp','phrase'] },
+  { id:'FORM-15', world:'research', title:'RSVP for research day', category:'Forms', difficulty:2, optimalSteps:8, timeLimitSeconds:240, required:['attendance','terms'] },
   { id:'FORM-19', world:'caredesk', title:'Import a contacts file', category:'Data entry', difficulty:4, optimalSteps:6, timeLimitSeconds:300, required:['file','mapping'] },
   { id:'SS-06', world:'shopstack', title:'Checkout with a coupon', category:'Multi-step', difficulty:4, optimalSteps:14, timeLimitSeconds:420, required:['cart','coupon','address','humanCheckpoint'] },
   { id:'NW-07', world:'northwind', title:'Transfer money', category:'Multi-step', difficulty:5, optimalSteps:11, timeLimitSeconds:300, required:['payee','amount','confirmation'] },
