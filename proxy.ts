@@ -1,9 +1,11 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { clerkMiddleware } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse, NextFetchEvent } from 'next/server';
 
-const protectedRoutes = createRouteMatcher(['/dashboard(.*)', '/api/runs(.*)', '/api/leaderboard(.*)', '/verify(.*)']);
+const protectedPrefixes = ['/dashboard', '/api/runs', '/api/leaderboard', '/verify'];
 const clerk = clerkMiddleware(async (auth, request) => {
-  if (protectedRoutes(request)) await auth.protect();
+  const pathname = request.nextUrl.pathname;
+  const isProtected = protectedPrefixes.some(prefix => pathname === prefix || pathname.startsWith(`${prefix}/`));
+  if (isProtected) await auth.protect();
 });
 
 export default function proxy(request: NextRequest, event: NextFetchEvent) {
