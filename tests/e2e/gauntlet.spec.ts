@@ -68,3 +68,14 @@ test('core worlds accept typed domain actions', async ({ request }) => {
     expect(response.status(), `${world} should accept ${type}`).toBe(201);
   }
 });
+
+test('world forms emit typed actions from the browser', async ({ page, request }) => {
+  await page.goto('/worlds/northwind');
+  await page.getByRole('button', { name: 'Transfer money' }).click();
+  await page.getByLabel('Send to').selectOption({ label: 'Riverside Design Ltd' });
+  await page.getByLabel('Amount').fill('240');
+  await page.getByLabel('Reference').fill('March project invoice');
+  await page.getByRole('button', { name: /Review transfer/ }).click();
+  await expect(page.getByText(/queued for confirmation/)).toBeVisible();
+  await expect.poll(async () => (await (await request.get('/api/worlds/northwind/actions')).json()).actions.some((item: { type: string }) => item.type === 'transfer.created')).toBeTruthy();
+});
