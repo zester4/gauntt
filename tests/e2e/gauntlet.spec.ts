@@ -51,3 +51,13 @@ test('ShopStack has a browsable checkout path', async ({ page }) => {
   await page.getByRole('link', { name: /View cart/ }).click();
   await expect(page.getByRole('heading', { name: 'Your cart' })).toBeVisible();
 });
+
+test('world actions are recorded as auditable evidence', async ({ request }) => {
+  const created = await request.post('/api/worlds/shopstack/actions', { data: { type: 'order.placed', payload: { orderId: 'SS-E2E', total: 30 } } });
+  expect(created.status()).toBe(201);
+  const action = await created.json();
+  expect(action.action.type).toBe('order.placed');
+  const history = await request.get('/api/worlds/shopstack/actions');
+  expect(history.ok()).toBeTruthy();
+  expect((await history.json()).actions.some((item: { id: string }) => item.id === action.action.id)).toBeTruthy();
+});

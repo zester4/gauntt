@@ -12,6 +12,8 @@ export default function Checkout() {
   async function placeOrder(event: React.FormEvent) {
     event.preventDefault();
     if (!verified) return;
+    const form = new FormData(event.currentTarget as HTMLFormElement);
+    await fetch('/api/worlds/shopstack/actions', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ type: 'order.placed', payload: { orderId: 'SS-2048', email: form.get('email'), total: 30, humanVerified: true } }) }).catch(() => undefined);
     const runId = sessionStorage.getItem('gauntlet-run-id');
     if (runId) await completeBenchmarkRun(runId, { outcome: 'passed', score: 94, reason: 'Checkout completed with human checkpoint' }).catch(() => undefined);
     setSubmitted(true);
