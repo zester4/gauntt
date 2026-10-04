@@ -61,3 +61,10 @@ test('world actions are recorded as auditable evidence', async ({ request }) => 
   expect(history.ok()).toBeTruthy();
   expect((await history.json()).actions.some((item: { id: string }) => item.id === action.action.id)).toBeTruthy();
 });
+
+test('core worlds accept typed domain actions', async ({ request }) => {
+  for (const [world, type] of [['northwind', 'transfer.created'], ['caredesk', 'ticket.created'], ['helix', 'expense.submitted'], ['civic', 'declaration.accepted']] as const) {
+    const response = await request.post(`/api/worlds/${world}/actions`, { data: { type, payload: { source: 'e2e' } } });
+    expect(response.status(), `${world} should accept ${type}`).toBe(201);
+  }
+});
