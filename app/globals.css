@@ -209,6 +209,14 @@ footer { padding:70px 0 26px; } .footer-grid { display:grid; grid-template-colum
 .hero-visual .dash-ring { background:rgba(200,255,0,.94); }
 .hero-visual .ring { border-color:#0d2833; }
 .hero-visual .ring strong { color:#0d2833; }
+.world-card { overflow:hidden; position:relative; }
+.world-card:before { content:''; display:block; height:154px; margin:-24px -24px 20px; background-position:center; background-size:cover; opacity:.92; border-bottom:1px solid rgba(13,40,51,.08); }
+.world-card:nth-child(1):before { background-image:url('/images/northwind.png'); }
+.world-card:nth-child(2):before { background-image:url('/images/wanderly.png'); }
+.world-card:nth-child(3):before { background-image:url('/images/helix.png'); }
+.world-card:nth-child(4):before { background:linear-gradient(135deg,#f7d59b,#183d4b 70%); }
+.world-card:nth-child(5):before { background:linear-gradient(135deg,#cdebdc,#426a63 70%); }
+.world-card:nth-child(6):before { background:linear-gradient(135deg,#e5e9ea,#596b76 70%); }
 .hero h1 { max-width:720px; letter-spacing:-.055em; text-wrap:balance; }
 .section-head h2,.challenge-head h2 { letter-spacing:-.045em; text-wrap:balance; }
 .button { border-radius:10px; font-weight:700; letter-spacing:-.01em; }
