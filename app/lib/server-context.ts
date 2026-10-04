@@ -2,7 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { createHash } from 'node:crypto';
 
 export async function optionalUserId() {
-  if (!process.env.CLERK_SECRET_KEY) return null;
+  if (process.env.GAUNTLET_E2E === '1' || !process.env.CLERK_SECRET_KEY) return null;
   const { userId } = await auth();
   return userId || null;
 }
