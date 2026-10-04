@@ -24,3 +24,30 @@ test('task verifier rejects missing state and reset endpoint responds', async ({
   expect(reset.ok()).toBeTruthy();
   expect((await reset.json()).seed).toBe(2048);
 });
+
+test('operations pages expose ranking and session evidence', async ({ page }) => {
+  await page.goto('/dashboard');
+  await expect(page.getByRole('heading', { name: 'See every run clearly.' })).toBeVisible();
+  await page.goto('/leaderboard');
+  await expect(page.getByRole('heading', { name: 'Who can handle the web?' })).toBeVisible();
+  await expect(page.getByText('Axiom 3.2').first()).toBeVisible();
+});
+
+test('world state can be mutated and read back', async ({ request }) => {
+  const update = await request.patch('/api/worlds/northwind/state', { data: { state: { payeeAdded: true, amount: 240 } } });
+  expect(update.ok()).toBeTruthy();
+  expect((await update.json()).state.amount).toBe(240);
+  const read = await request.get('/api/worlds/northwind/state');
+  expect(read.ok()).toBeTruthy();
+  expect((await read.json()).state.payeeAdded).toBeTruthy();
+});
+
+test('ShopStack has a browsable checkout path', async ({ page }) => {
+  await page.goto('/worlds/shopstack/products');
+  await expect(page.getByRole('heading', { name: 'Tools for careful work.' })).toBeVisible();
+  await page.getByRole('link', { name: 'Field Notes Kit', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Field Notes Kit' })).toBeVisible();
+  await page.getByRole('button', { name: /Add to cart/ }).click();
+  await page.getByRole('link', { name: /View cart/ }).click();
+  await expect(page.getByRole('heading', { name: 'Your cart' })).toBeVisible();
+});

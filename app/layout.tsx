@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const hasClerk = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
+  const hasClerk = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) && process.env.GAUNTLET_E2E !== '1';
   const content = <body className={`${display.variable} ${ui.variable}`}><RunTracker />{children}</body>;
   return <html lang="en">{hasClerk ? <ClerkProvider>{content}</ClerkProvider> : content}</html>;
 }

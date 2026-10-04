@@ -13,7 +13,12 @@ export async function GET(_: Request, { params }: { params: Promise<{ world: str
   const { world } = await params;
   if (!(await validWorld(world))) return NextResponse.json({ error: 'Unknown world' }, { status: 404 });
   const db = getDb();
-  if (db) { const rows = await db.select().from(worldSnapshots).where(eq(worldSnapshots.worldId, world)).limit(1); if (rows[0]) return NextResponse.json({ world, state: rows[0].state, seed: rows[0].seed, persisted: true }); }
+  try {
+    if (db) {
+      const rows = await db.select().from(worldSnapshots).where(eq(worldSnapshots.worldId, world)).limit(1);
+      if (rows[0]) return NextResponse.json({ world, state: rows[0].state, seed: rows[0].seed, persisted: true });
+    }
+  } catch { /* local state remains available when the database is temporarily unreachable */ }
   return NextResponse.json({ world, state: local.__gauntletWorldState!.get(world) || {}, seed: 2048, persisted: false });
 }
 
